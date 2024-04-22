@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import supabase from './supabaseClient';
+import './AuthStyles.css'; // Import the styles
 
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const history = useHistory();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -14,18 +16,18 @@ function Login() {
             alert(error.message);
         } else {
             alert('Logged in successfully!');
+            // Redirect to a dashboard or home page as needed
+            // history.push('/dashboard');
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleLogin}>
+        <div className="auth-container">
+            <form onSubmit={handleLogin} className="auth-form">
                 <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
                 <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
                 <button type="submit">Login</button>
-                <p>
-                    Don't have an account? <Link to="/signup">Sign up</Link>
-                </p>
+                <p>Don't have an account? <a className="link" onClick={() => history.push('/signup')}>Sign up</a></p>
             </form>
         </div>
     );
