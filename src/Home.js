@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Link } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useHistory, Link } from 'react-router-dom';
 import supabase from './supabaseClient';
 
 function Home() {
@@ -40,7 +40,7 @@ function Home() {
             <div>
                 {user ? (
                     <>
-                        <span style={{ marginRight: '10px' }}>Logged in as: {user.email}</span> {/* Correctly access the nested email */}
+                        <span style={{ marginRight: '10px' }}>{user.email}</span> {/* Correctly access the nested email */}
                         <button onClick={handleLogout} style={{ padding: '5px 15px', cursor: 'pointer' }}>Logout</button>
                     </>
                 ) : (
