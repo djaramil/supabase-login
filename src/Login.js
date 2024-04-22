@@ -10,12 +10,14 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const { user, error } = await supabase.auth.signIn({ email, password });
+
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
         if (error) {
             alert(error.message);
         } else {
             alert('Logged in successfully!');
+            history.push('/home'); // Redirect to home page
             // Redirect to a dashboard or home page as needed
             // history.push('/dashboard');
         }
