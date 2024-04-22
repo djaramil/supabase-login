@@ -10,7 +10,8 @@ function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const { error } = await supabase.auth.signIn({ email, password });
+        // Using signInWithPassword instead of signIn
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
 
         if (error) {
             setError(error.message); // Set the error message to be displayed
