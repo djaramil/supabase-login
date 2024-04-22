@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Link } from 'react';
 import { useHistory } from 'react-router-dom';
 import supabase from './supabaseClient';
 
@@ -8,31 +8,44 @@ function Home() {
 
     useEffect(() => {
         const checkUser = async () => {
-            const { data: user, error } = await supabase.auth.getUser();
-
-            console.log(user.user.email); // Check what is returned here
-            console.log(error); // Check for any errors
+            const { data: userData, error } = await supabase.auth.getUser();
 
             if (error) {
                 console.error('Error fetching user:', error.message);
-                history.push('/'); // Redirect to login if there's an error fetching the user
+                history.push('/');
             }
 
-            if (!user) {
-                history.push('/'); // Redirect to login if no user is logged in
+            if (!userData) {
+                history.push('/');
             } else {
-                setUser(user);
+                setUser(userData.user); // Assuming userData contains a nested user object
             }
         };
 
         checkUser();
     }, [history]);
 
+    const handleLogout = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+            console.error('Error logging out:', error.message);
+        } else {
+            history.push('/');
+        }
+    };
+
     return (
-        <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '10px', alignItems: 'center', background: '#f0f0f0' }}>
             <h1>Welcome to the Home Page!</h1>
-            <div style={{ float: 'right' }}>
-                {user ? `Logged in as: ${user.email}` : 'Not logged in'}
+            <div>
+                {user ? (
+                    <>
+                        <span style={{ marginRight: '10px' }}>Logged in as: {user.email}</span> {/* Correctly access the nested email */}
+                        <button onClick={handleLogout} style={{ padding: '5px 15px', cursor: 'pointer' }}>Logout</button>
+                    </>
+                ) : (
+                    <Link to="/">Go to Login</Link>
+                )}
             </div>
         </div>
     );
