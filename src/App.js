@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import Signup from './Signup';
 import Home from './Home';
+import './App.css';
+import './AuthStyles.css';
 
 function App() {
   return (
